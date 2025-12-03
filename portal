@@ -1,0 +1,3252 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Well & Good Team Portal</title>
+    <link rel="stylesheet" href="https://use.typekit.net/aff8emp.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #214080;
+            --light-blue: #4A7BC8;
+            --accent-blue: #6B9FE8;
+            --pale-blue: #E8F1FF;
+            --light-gray: #F5F7FA;
+            --mid-gray: #E1E8ED;
+            --text-dark: #1A2332;
+            --text-medium: #4A5568;
+            --text-light: #718096;
+            --white: #FFFFFF;
+            --shadow-sm: 0 2px 4px rgba(33, 64, 128, 0.08);
+            --shadow-md: 0 4px 12px rgba(33, 64, 128, 0.12);
+            --shadow-lg: 0 8px 24px rgba(33, 64, 128, 0.16);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+```
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'proxima-nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, var(--pale-blue) 0%, var(--light-gray) 100%);
+        color: var(--text-dark);
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: var(--white);
+        border-radius: 20px;
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+        background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%);
+        color: var(--white);
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .header::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -5%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .header-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .header h1 {
+        font-family: 'Raleway', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        letter-spacing: -0.5px;
+    }
+
+    .header p {
+        font-size: 1.1rem;
+        opacity: 0.95;
+        font-weight: 400;
+    }
+
+    /* Folder Navigation */
+    .folder-nav {
+        display: flex;
+        gap: 0;
+        background: var(--light-gray);
+        padding: 0;
+        border-bottom: 3px solid var(--mid-gray);
+    }
+
+    .folder-btn {
+        flex: 1;
+        padding: 20px 30px;
+        background: transparent;
+        border: none;
+        font-family: 'proxima-nova', sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-medium);
+        cursor: pointer;
+        transition: var(--transition);
+        position: relative;
+        border-right: 1px solid var(--mid-gray);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        opacity: 0.5;
+    }
+
+    .folder-icon {
+        font-size: 1.2rem;
+        opacity: 0.4;
+        transition: var(--transition);
+    }
+
+    .folder-btn:hover .folder-icon {
+        opacity: 0.7;
+    }
+
+    .folder-btn.active .folder-icon {
+        opacity: 0.8;
+    }
+
+    .folder-btn:last-child {
+        border-right: none;
+    }
+
+    .folder-btn:hover {
+        background: rgba(33, 64, 128, 0.05);
+        color: var(--primary-blue);
+        opacity: 0.75;
+    }
+
+    .folder-btn.active {
+        background: var(--white);
+        color: var(--primary-blue);
+        border-bottom: 3px solid var(--primary-blue);
+        margin-bottom: -3px;
+        opacity: 1;
+    }
+
+    .folder-btn.active::before {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--primary-blue);
+    }
+
+    /* Content Area */
+    .content-area {
+        padding: 40px;
+    }
+
+    .folder-content {
+        display: none;
+    }
+
+    .folder-content.active {
+        display: block;
+        animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        color: var(--text-light);
+    }
+
+    .empty-state-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0.3;
+    }
+
+    .empty-state h3 {
+        font-family: 'proxima-nova', sans-serif;
+        font-size: 1.5rem;
+        color: var(--text-medium);
+        margin-bottom: 8px;
+    }
+
+    .empty-state p {
+        font-size: 1rem;
+    }
+
+    /* Tabs for Cleaners */
+    .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        border-bottom: 2px solid var(--mid-gray);
+        padding-bottom: 0;
+    }
+
+    .tab-btn {
+        padding: 12px 24px;
+        background: transparent;
+        border: none;
+        font-family: 'proxima-nova', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-medium);
+        cursor: pointer;
+        transition: var(--transition);
+        border-bottom: 3px solid transparent;
+        margin-bottom: -2px;
+        white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+        color: var(--primary-blue);
+        background: rgba(33, 64, 128, 0.03);
+    }
+
+    .tab-btn.active {
+        color: var(--primary-blue);
+        border-bottom-color: var(--primary-blue);
+        font-weight: 600;
+    }
+
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    /* Search Bar */
+    .search-container {
+        margin-bottom: 30px;
+        position: relative;
+    }
+
+    .search-bar {
+        width: 100%;
+        padding: 16px 50px 16px 50px;
+        border: 2px solid var(--mid-gray);
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        font-family: 'proxima-nova', sans-serif;
+        transition: var(--transition);
+        background: var(--white);
+    }
+
+    .search-bar:focus {
+        outline: none;
+        border-color: var(--light-blue);
+        box-shadow: 0 0 0 4px rgba(74, 123, 200, 0.1);
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-light);
+        pointer-events: none;
+    }
+
+    .clear-search {
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--text-light);
+        cursor: pointer;
+        font-size: 1.2rem;
+        padding: 4px;
+        display: none;
+        transition: var(--transition);
+    }
+
+    .clear-search:hover {
+        color: var(--primary-blue);
+    }
+
+    .clear-search.visible {
+        display: block;
+    }
+
+    .search-results-info {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: var(--text-light);
+        font-style: italic;
+    }
+
+    /* Accordion */
+    .accordion {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .accordion.horizontal {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .accordion.horizontal .accordion-item {
+        flex: 1;
+        min-width: 280px;
+    }
+
+    .accordion-item {
+        background: var(--white);
+        border: 2px solid var(--mid-gray);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        transition: var(--transition);
+    }
+
+    .accordion-item.hidden {
+        display: none;
+    }
+
+    .accordion-item:hover {
+        border-color: var(--light-blue);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .accordion-header {
+        width: 100%;
+        padding: 20px 24px;
+        background: var(--white);
+        border: none;
+        text-align: left;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'proxima-nova', sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        transition: var(--transition);
+        gap: 12px;
+    }
+
+    .accordion-header:hover {
+        background: var(--pale-blue);
+    }
+
+    .accordion-item.active .accordion-header {
+        background: var(--pale-blue);
+        color: var(--primary-blue);
+    }
+
+    .accordion-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+    }
+
+    .accordion-title-text {
+        flex: 1;
+    }
+
+    .accordion-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .media-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        background: var(--light-blue);
+        color: var(--white);
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .media-badge.document {
+        background: var(--accent-blue);
+    }
+
+    .media-badge.video {
+        background: var(--light-blue);
+    }
+
+    .media-badge.tool {
+        background: #6B8DE8;
+    }
+
+    .accordion-icon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-medium);
+        transition: transform 0.3s ease;
+        font-size: 1.2rem;
+    }
+
+    .accordion-item.active .accordion-icon {
+        transform: rotate(180deg);
+        color: var(--primary-blue);
+    }
+
+    .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .accordion-item.active .accordion-content {
+        max-height: 800px;
+    }
+
+    .accordion-body {
+        padding: 24px;
+        background: var(--light-gray);
+        border-top: 1px solid var(--mid-gray);
+    }
+
+    .video-placeholder,
+    .document-placeholder {
+        background: var(--white);
+        border: 2px dashed var(--mid-gray);
+        border-radius: var(--border-radius);
+        padding: 40px;
+        text-align: center;
+        color: var(--text-light);
+    }
+
+    .video-placeholder {
+        aspect-ratio: 16/9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .placeholder-icon {
+        font-size: 3rem;
+        margin-bottom: 12px;
+        opacity: 0.4;
+    }
+
+    .placeholder-text {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-medium);
+    }
+
+    .placeholder-subtext {
+        font-size: 0.85rem;
+        color: var(--text-light);
+        margin-top: 4px;
+    }
+
+    /* No Results */
+    .no-results {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-light);
+        display: none;
+    }
+
+    .no-results.visible {
+        display: block;
+    }
+
+    .no-results-icon {
+        font-size: 3rem;
+        margin-bottom: 16px;
+        opacity: 0.3;
+    }
+
+    .no-results h3 {
+        font-family: 'proxima-nova', sans-serif;
+        font-size: 1.3rem;
+        color: var(--text-medium);
+        margin-bottom: 8px;
+    }
+
+    .no-results p {
+        font-size: 0.95rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        body {
+            padding: 10px;
+        }
+
+        .container {
+            border-radius: 12px;
+        }
+
+        .header {
+            padding: 30px 20px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+        }
+
+        .header p {
+            font-size: 1rem;
+        }
+
+        .folder-nav {
+            flex-direction: column;
+        }
+
+        .folder-btn {
+            padding: 16px 20px;
+            border-right: none;
+            border-bottom: 1px solid var(--mid-gray);
+        }
+
+        .folder-btn:last-child {
+            border-bottom: none;
+        }
+
+        .content-area {
+            padding: 20px;
+        }
+
+        .tabs {
+            flex-direction: column;
+            gap: 0;
+            border-bottom: none;
+        }
+
+        .tab-btn {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--mid-gray);
+            margin-bottom: 0;
+        }
+
+        .tab-btn.active {
+            border-left: 3px solid var(--primary-blue);
+            border-bottom: 1px solid var(--mid-gray);
+            background: var(--pale-blue);
+        }
+
+        .accordion.horizontal {
+            flex-direction: column;
+        }
+
+        .accordion-header {
+            padding: 16px 16px;
+            font-size: 0.95rem;
+            flex-wrap: wrap;
+        }
+
+        .accordion-title {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .accordion-right {
+            flex-wrap: wrap;
+        }
+
+        .accordion-body {
+            padding: 16px;
+        }
+
+        .video-placeholder,
+        .document-placeholder {
+            padding: 30px 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header h1 {
+            font-size: 1.5rem;
+        }
+
+        .search-bar {
+            padding: 14px 40px 14px 40px;
+            font-size: 0.95rem;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" style="min-height: 100vh; background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%); display: flex; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-width: 450px; width: 100%; padding: 50px 40px;">
+            <!-- Logo/Brand Area -->
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div style="font-size: 4rem; margin-bottom: 15px;">👨‍💼👩‍💼</div>
+                <h1 style="font-family: 'Raleway', sans-serif; font-size: 2rem; color: var(--primary-blue); margin-bottom: 10px;">Team Portal</h1>
+                <p style="color: var(--text-medium); font-size: 0.95rem;">Well & Good Professional Services</p>
+            </div>
+
+```
+        <!-- Login Form -->
+        <form id="login-form" style="margin-bottom: 20px;">
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-family: 'proxima-nova', sans-serif; font-weight: 600; color: var(--text-dark); margin-bottom: 8px; font-size: 0.9rem;">Email Address</label>
+                <input type="email" id="login-email" required placeholder="your.email@wellandgood.pro" style="width: 100%; padding: 14px; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem; transition: var(--transition);">
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; font-family: 'proxima-nova', sans-serif; font-weight: 600; color: var(--text-dark); margin-bottom: 8px; font-size: 0.9rem;">Password</label>
+                <div style="position: relative;">
+                    <input type="password" id="login-password" required placeholder="Enter your password" style="width: 100%; padding: 14px; padding-right: 50px; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem; transition: var(--transition);">
+                    <button type="button" id="toggle-login-password" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.3rem; padding: 5px; color: var(--text-medium);" title="Show password">
+                        👁️
+                    </button>
+                </div>
+            </div>
+
+            <div id="login-error" style="display: none; background: #ffe5e5; border: 2px solid #e74c3c; color: #c0392b; padding: 12px; border-radius: var(--border-radius); margin-bottom: 20px; font-size: 0.9rem; text-align: center;">
+                Invalid email or password. Please try again.
+            </div>
+
+            <button type="submit" id="login-btn" style="width: 100%; padding: 16px; background: var(--primary-blue); color: white; border: none; border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--transition);">
+                Sign In
+            </button>
+
+            <button type="button" id="skip-login-btn" style="width: 100%; padding: 12px; margin-top: 15px; background: transparent; color: var(--text-medium); border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: var(--transition);">
+                Skip Login (Temporary)
+            </button>
+        </form>
+
+        <div style="text-align: center; color: var(--text-light); font-size: 0.85rem; border-top: 1px solid var(--mid-gray); padding-top: 20px;">
+            <p style="margin-bottom: 5px;">Need access? Contact your administrator.</p>
+            <a href="mailto:marketing@wellandgood.pro" style="color: var(--light-blue); text-decoration: none;">marketing@wellandgood.pro</a>
+        </div>
+    </div>
+</div>
+
+<!-- Main Team Portal (Hidden until login) -->
+<div id="team-portal" style="display: none;">
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <h1>Team Portal</h1>
+            <p>Your hub for company updates, training, and resources</p>
+        </div>
+    </div>
+
+    <!-- Folder Navigation -->
+    <div class="folder-nav">
+        <button class="folder-btn active" data-folder="home">
+            <span class="folder-icon">🏠</span>
+            <span>Home</span>
+        </button>
+        <button class="folder-btn" data-folder="resources">
+            <span class="folder-icon">🔧</span>
+            <span>Resources</span>
+        </button>
+        <button class="folder-btn" data-folder="training">
+            <span class="folder-icon">📺</span>
+            <span>Training and How To Guides</span>
+        </button>
+        <button class="folder-btn" data-folder="university">
+            <span class="folder-icon">🎓</span>
+            <span>University</span>
+        </button>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+        <!-- Home Folder -->
+        <div id="home" class="folder-content active">
+            <!-- Two Column Layout -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                
+                <!-- Company News Section -->
+                <div style="background: var(--white); border: 2px solid var(--mid-gray); border-radius: var(--border-radius); padding: 30px;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <div style="font-size: 2.5rem;">📰</div>
+                        <div>
+                            <h3 style="font-family: 'proxima-nova', sans-serif; color: var(--primary-blue); font-size: 1.5rem; margin-bottom: 5px;">Company News & Memos</h3>
+                            <p style="color: var(--text-medium); font-size: 0.9rem;">Latest updates</p>
+                        </div>
+                    </div>
+
+                    <!-- News Items -->
+                    <div id="news-items" style="max-height: 500px; overflow-y: auto;">
+                        <!-- News Item 1 (Example) -->
+                        <div style="border-left: 4px solid var(--light-blue); padding: 15px; margin-bottom: 15px; background: var(--pale-blue); border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+                                <h4 style="font-family: 'proxima-nova', sans-serif; color: var(--primary-blue); font-size: 1.1rem; margin: 0;">Welcome to the New Team Portal!</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-light); white-space: nowrap; margin-left: 10px;">Dec 3, 2025</span>
+                            </div>
+                            <p style="color: var(--text-dark); line-height: 1.6; margin: 0;">
+                                We're excited to launch our new Team Portal! This is your one-stop hub for all training materials, documents, and company updates. Explore the different folders to find what you need.
+                            </p>
+                        </div>
+
+                        <!-- Add more news items here -->
+                        <div style="text-align: center; padding: 40px 20px; color: var(--text-light);">
+                            <div style="font-size: 2rem; margin-bottom: 10px; opacity: 0.3;">📝</div>
+                            <p style="font-size: 0.9rem;">More company updates coming soon...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Well & Good Weekly Section -->
+                <div style="background: var(--white); border: 2px solid var(--mid-gray); border-radius: var(--border-radius); padding: 30px;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <div style="font-size: 2.5rem;">📺</div>
+                        <div>
+                            <h3 style="font-family: 'proxima-nova', sans-serif; color: var(--primary-blue); font-size: 1.5rem; margin-bottom: 5px;">Well & Good Weekly</h3>
+                            <p style="color: var(--text-medium); font-size: 0.9rem;">Latest episode</p>
+                        </div>
+                    </div>
+
+                    <!-- Video Player -->
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; border-radius: 8px; margin-bottom: 15px;">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                            src="https://www.youtube.com/embed/VIDEO_ID_HERE" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <p style="color: var(--text-light); font-size: 0.85rem; text-align: center; font-style: italic;">
+                        💡 Replace VIDEO_ID_HERE with the latest episode's YouTube ID
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources Folder -->
+        <div id="resources" class="folder-content">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="corporate">Corporate</button>
+                <button class="tab-btn" data-tab="cleaners-video">Cleaners - Video Library</button>
+                <button class="tab-btn" data-tab="cleaners-docs">Cleaners - Documents</button>
+                <button class="tab-btn" data-tab="cleaners-quiz">Cleaners - Quiz</button>
+                <button class="tab-btn" data-tab="operations">Operations</button>
+                <button class="tab-btn" data-tab="additional">Additional Resources</button>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-bar" id="resources-search" placeholder="Search all resources...">
+                <button class="clear-search" id="resources-clear">×</button>
+                <div class="search-results-info" id="resources-results-info"></div>
+            </div>
+
+            <!-- Corporate Tab -->
+            <div id="corporate" class="tab-content active">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📂</div>
+                    <h3>Coming Soon</h3>
+                    <p>Corporate resources will be available here shortly.</p>
+                </div>
+            </div>
+
+            <!-- Cleaners Video Library Tab -->
+            <div id="cleaners-video" class="tab-content">
+                <div class="accordion" id="video-accordion">
+                    <div class="accordion-item" data-title="brand standards: towels">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Brand Standards: Towels</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge video">📹 Video</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="video-placeholder">
+                                    <div class="placeholder-icon">🎬</div>
+                                    <div class="placeholder-text">Brand Standards: Towels Video</div>
+                                    <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="window seal cleaner">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Window Seal Cleaner</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge video">📹 Video</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="video-placeholder">
+                                    <div class="placeholder-icon">🎬</div>
+                                    <div class="placeholder-text">Window Seal Cleaner Video</div>
+                                    <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="multiple partner tool">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Multiple Partner Tool</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge video">📹 Video</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="video-placeholder">
+                                    <div class="placeholder-icon">🎬</div>
+                                    <div class="placeholder-text">Multiple Partner Tool Video</div>
+                                    <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="how to: do a bundle">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">How to: Do A Bundle</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge video">📹 Video</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="video-placeholder">
+                                    <div class="placeholder-icon">🎬</div>
+                                    <div class="placeholder-text">How to: Do A Bundle Video</div>
+                                    <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="stain treatment demo product guide">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Stain Treatment Demo (Video) and Product Guide (Document)</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge video">📹 Video</span>
+                                <span class="media-badge document">📄 Doc</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="video-placeholder">
+                                    <div class="placeholder-icon">🎬</div>
+                                    <div class="placeholder-text">Stain Treatment Demo Video</div>
+                                    <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                                </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="document-placeholder">
+                                        <div class="placeholder-icon">📄</div>
+                                        <div class="placeholder-text">Product Guide Document</div>
+                                        <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="onsite video resources">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Onsite Video Resources</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge video">📹 Video</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="video-placeholder">
+                                    <div class="placeholder-icon">🎬</div>
+                                    <div class="placeholder-text">Onsite Video Resources</div>
+                                    <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="slipper placement">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Slipper Placement</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge video">📹 Video</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="video-placeholder">
+                                    <div class="placeholder-icon">🎬</div>
+                                    <div class="placeholder-text">Slipper Placement Video</div>
+                                    <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="w&g cleaning flow">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">W&G Cleaning Flow</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge video">📹 Video</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="video-placeholder">
+                                    <div class="placeholder-icon">🎬</div>
+                                    <div class="placeholder-text">W&G Cleaning Flow Video</div>
+                                    <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="no-results" id="video-no-results">
+                    <div class="no-results-icon">🔍</div>
+                    <h3>No videos found</h3>
+                    <p>Try adjusting your search terms</p>
+                </div>
+            </div>
+
+            <!-- Cleaners Documents Tab -->
+            <div id="cleaners-docs" class="tab-content">
+                <div class="accordion" id="documents-accordion">
+                    <div class="accordion-item" data-title="additional services">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Additional Services</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Additional Services Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="tips & tricks">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Tips & Tricks</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Tips & Tricks Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="new 2025 brand standards">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">New 2025 Brand Standards</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">New 2025 Brand Standards Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="linen excellence standard">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Linen Excellence Standard</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Linen Excellence Standard Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="basic cleaning list">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Basic Cleaning List</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Basic Cleaning List Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="house cleaning checklist">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">House Cleaning Checklist</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">House Cleaning Checklist Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="certified home offboarding details">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Certified Home Offboarding Details</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Certified Home Offboarding Details Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="cleaning supply list">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Cleaning Supply List</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Cleaning Supply List Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="coffee service">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Coffee Service</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Coffee Service Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="lista de limpieza básica">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Lista de Limpieza Básica</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Documento</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Lista de Limpieza Básica Documento</div>
+                                    <div class="placeholder-subtext">Enlace de Google Drive o PDF incrustado irá aquí</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="contractor orientation checklist">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Contractor Orientation Checklist</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Contractor Orientation Checklist Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="deep clean">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Deep Clean</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Deep Clean Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="laundry vendor procedures">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Laundry Vendor Procedures</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Laundry Vendor Procedures Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="linen service">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Linen Service</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Linen Service Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="local market leader overview">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Local Market Leader Overview</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Local Market Leader Overview Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="master service agreement">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Master Service Agreement</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Master Service Agreement Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="mid-stay linen service">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Mid-Stay Linen Service</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Mid-Stay Linen Service Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="policies & procedures handbook">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Policies & Procedures Handbook</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Policies & Procedures Handbook Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="standard cleaning service">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Standard Cleaning Service</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Standard Cleaning Service Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="stained linen sop">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Stained Linen SOP</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Stained Linen SOP Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-title="touch up protocol inspections dropoffs">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Touch Up Protocol + Inspections + Dropoffs</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Touch Up Protocol + Inspections + Dropoffs Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="no-results" id="documents-no-results">
+                    <div class="no-results-icon">🔍</div>
+                    <h3>No documents found</h3>
+                    <p>Try adjusting your search terms</p>
+                </div>
+            </div>
+
+            <!-- Cleaners Quiz Tab -->
+            <div id="cleaners-quiz" class="tab-content">
+                <div class="accordion" id="quiz-accordion">
+                    <div class="accordion-item" data-title="culture standards quiz english español">
+                        <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Culture and Standards Quiz - English or Español</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge tool">📝 Quiz</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📝</div>
+                                    <div class="placeholder-text">Interactive Quiz</div>
+                                    <div class="placeholder-subtext">Quiz interface will be embedded here (Google Forms, Typeform, or custom quiz)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="no-results" id="quiz-no-results">
+                    <div class="no-results-icon">🔍</div>
+                    <h3>No quiz found</h3>
+                    <p>Try adjusting your search terms</p>
+                </div>
+            </div>
+
+            <!-- Operations Tab -->
+            <div id="operations" class="tab-content">
+                <div class="accordion" id="operations-accordion">
+                <div class="accordion-item" data-title="well & good client presentation video">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">A Well & Good Client / Presentation and Video</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge video">📹 Video</span>
+                                <span class="media-badge document">📄 Doc</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="video-placeholder">
+                                <div class="placeholder-icon">🎬</div>
+                                <div class="placeholder-text">A Well & Good Client Presentation Video</div>
+                                <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                            </div>
+                            <div style="margin-top: 20px;">
+                                <div class="document-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <div class="placeholder-text">Presentation Document</div>
+                                    <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="operations budgets tracker">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Operations Budgets Tracker</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge tool">📊 Tool</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">📊</div>
+                                <div class="placeholder-text">Operations Budgets Tracker</div>
+                                <div class="placeholder-subtext">Google Sheets embed or link will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="resco processes">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Resco Processes</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">📄</div>
+                                <div class="placeholder-text">Resco Processes Document</div>
+                                <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="policies & procedures handbook">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Policies & Procedures Handbook</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">📄</div>
+                                <div class="placeholder-text">Policies & Procedures Handbook Document</div>
+                                <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="zip code color zones map">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Zip Code Color Zones Map</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge tool">🗺️ Tool</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">🗺️</div>
+                                <div class="placeholder-text">Zip Code Color Zones Map</div>
+                                <div class="placeholder-subtext">Interactive map or document will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="pricing reference">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Pricing Reference</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">📄</div>
+                                <div class="placeholder-text">Pricing Reference Document</div>
+                                <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="zip codes color zones">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Zip Codes Color Zones</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">📄</div>
+                                <div class="placeholder-text">Zip Codes Color Zones Document</div>
+                                <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="api integration">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">API Integration</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge tool">⚙️ Tool</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">⚙️</div>
+                                <div class="placeholder-text">API Integration</div>
+                                <div class="placeholder-subtext">Integration tool or documentation will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="access note template">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Access Note Template</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">📄</div>
+                                <div class="placeholder-text">Access Note Template Document</div>
+                                <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="access note template certifications">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Access Note Template (With Certifications)</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">📄</div>
+                                <div class="placeholder-text">Access Note Template (With Certifications) Document</div>
+                                <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="new master list properties">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">New Master List of Properties</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge tool">📊 Tool</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">📊</div>
+                                <div class="placeholder-text">New Master List of Properties</div>
+                                <div class="placeholder-subtext">Google Sheets embed or link will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="servicer's score details video">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Servicer's Score Details</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge video">📹 Video</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="video-placeholder">
+                                <div class="placeholder-icon">🎬</div>
+                                <div class="placeholder-text">Servicer's Score Details Video</div>
+                                <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="monthly occupancy numbers entry">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Monthly Occupancy Numbers Entry</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge tool">📊 Tool</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">📊</div>
+                                <div class="placeholder-text">Monthly Occupancy Numbers Entry</div>
+                                <div class="placeholder-subtext">Form or tool will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-title="occupancy numbers reservations span multiple months">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Occupancy Numbers - When Reservations Span Multiple Months</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">📄</div>
+                                <div class="placeholder-text">Occupancy Numbers - When Reservations Span Multiple Months Document</div>
+                                <div class="placeholder-subtext">Google Drive link or PDF embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="no-results" id="operations-no-results">
+                <div class="no-results-icon">🔍</div>
+                <h3>No resources found</h3>
+                <p>Try adjusting your search terms</p>
+            </div>
+        </div>
+
+        <!-- Additional Resources Tab -->
+        <div id="additional" class="tab-content">
+            <div class="accordion horizontal" id="additional-accordion">
+        <div id="training" class="folder-content">
+            <!-- Search Bar -->
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-bar" id="training-search" placeholder="Search Training & How To's...">
+                <button class="clear-search" id="training-clear">×</button>
+                <div class="search-results-info" id="training-results-info"></div>
+            </div>
+
+            <div class="accordion" id="training-accordion">
+                <!-- Setting Up Vendors and Contractors in QuickBooks -->
+                <div class="accordion-item" data-title="setting up vendors contractors quickbooks">
+                    <button class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-title-text">Setting Up Vendors and Contractors in QuickBooks</span>
+                        </div>
+                        <div class="accordion-right">
+                            <span class="media-badge video">📹 Video</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <!-- YOUTUBE EMBED READY - Replace VIDEO_ID_HERE with actual YouTube video ID -->
+                            <!-- Example: If your video is https://youtube.com/watch?v=ABC123 -->
+                            <!-- Change src to: https://www.youtube.com/embed/ABC123 -->
+                            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; border-radius: 8px;">
+                                <iframe 
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                                    src="https://www.youtube.com/embed/VIDEO_ID_HERE" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            <p style="margin-top: 12px; color: var(--text-light); font-size: 0.9rem; font-style: italic;">
+                                💡 To add video: Replace VIDEO_ID_HERE with your YouTube video ID
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servicer's Score Details -->
+                <div class="accordion-item" data-title="servicer's score details">
+                    <button class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-title-text">Servicer's Score Details</span>
+                        </div>
+                        <div class="accordion-right">
+                            <span class="media-badge video">📹 Video</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="video-placeholder">
+                                <div class="placeholder-icon">🎬</div>
+                                <div class="placeholder-text">Servicer's Score Details</div>
+                                <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How To: Add a Slack Channel -->
+                <div class="accordion-item" data-title="how to add slack channel">
+                    <button class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-title-text">How To: Add a Slack Channel</span>
+                        </div>
+                        <div class="accordion-right">
+                            <span class="media-badge video">📹 Video</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="video-placeholder">
+                                <div class="placeholder-icon">🎬</div>
+                                <div class="placeholder-text">How To: Add a Slack Channel</div>
+                                <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How to Link Airbnb Calendar to VRBO -->
+                <div class="accordion-item" data-title="how to link airbnb calendar vrbo">
+                    <button class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-title-text">How to Link Airbnb Calendar to VRBO</span>
+                        </div>
+                        <div class="accordion-right">
+                            <span class="media-badge video">📹 Video</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="video-placeholder">
+                                <div class="placeholder-icon">🎬</div>
+                                <div class="placeholder-text">How to Link Airbnb Calendar to VRBO</div>
+                                <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Touch Up Protocol Training -->
+                <div class="accordion-item" data-title="touch up protocol training">
+                    <button class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-title-text">Touch Up Protocol Training</span>
+                        </div>
+                        <div class="accordion-right">
+                            <span class="media-badge video">📹 Video</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="video-placeholder">
+                                <div class="placeholder-icon">🎬</div>
+                                <div class="placeholder-text">Touch Up Protocol Training</div>
+                                <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Front Demonstration -->
+                <div class="accordion-item" data-title="front demonstration">
+                    <button class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-title-text">Front Demonstration</span>
+                        </div>
+                        <div class="accordion-right">
+                            <span class="media-badge video">📹 Video</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="video-placeholder">
+                                <div class="placeholder-icon">🎬</div>
+                                <div class="placeholder-text">Front Demonstration</div>
+                                <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Team Members on Breezeway -->
+                <div class="accordion-item" data-title="add team members breezeway">
+                    <button class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-title-text">Add Team Members on Breezeway</span>
+                        </div>
+                        <div class="accordion-right">
+                            <span class="media-badge video">📹 Video</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="video-placeholder">
+                                <div class="placeholder-icon">🎬</div>
+                                <div class="placeholder-text">Add Team Members on Breezeway</div>
+                                <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loom: Turn on Captions in Different Languages -->
+                <div class="accordion-item" data-title="loom turn on captions different languages">
+                    <button class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-title-text">Loom: Turn on Captions in Different Languages</span>
+                        </div>
+                        <div class="accordion-right">
+                            <span class="media-badge video">📹 Video</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="video-placeholder">
+                                <div class="placeholder-icon">🎬</div>
+                                <div class="placeholder-text">Loom: Turn on Captions in Different Languages</div>
+                                <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Offboarding Training -->
+                <div class="accordion-item" data-title="offboarding training">
+                    <button class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-title-text">Offboarding Training</span>
+                        </div>
+                        <div class="accordion-right">
+                            <span class="media-badge video">📹 Video</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="video-placeholder">
+                                <div class="placeholder-icon">🎬</div>
+                                <div class="placeholder-text">Offboarding Training</div>
+                                <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Change Occupancy Percentage -->
+                <div class="accordion-item" data-title="change occupancy percentage">
+                    <button class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-title-text">Change Occupancy Percentage</span>
+                        </div>
+                        <div class="accordion-right">
+                            <span class="media-badge video">📹 Video</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="video-placeholder">
+                                <div class="placeholder-icon">🎬</div>
+                                <div class="placeholder-text">Change Occupancy Percentage</div>
+                                <div class="placeholder-subtext">YouTube/Vimeo embed will go here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="no-results" id="training-no-results">
+                <div class="no-results-icon">🔍</div>
+                <h3>No training videos found</h3>
+                <p>Try adjusting your search terms</p>
+            </div>
+        </div>
+
+        <!-- University Folder -->
+        <div id="university" class="folder-content">
+            <!-- Welcome Banner -->
+            <div style="background: linear-gradient(135deg, #1a5490 0%, var(--primary-blue) 100%); padding: 50px 40px; border-radius: var(--border-radius); margin-bottom: 30px; color: white; text-align: center; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: -50px; right: -50px; font-size: 15rem; opacity: 0.1;">🎓</div>
+                <div style="position: relative; z-index: 1;">
+                    <h2 style="font-family: 'Raleway', sans-serif; font-size: 2.8rem; margin-bottom: 15px;">University</h2>
+                    <p style="font-size: 1.2rem; opacity: 0.95; max-width: 700px; margin: 0 auto;">Advanced training and professional development for team growth</p>
+                </div>
+            </div>
+
+            <!-- Coming Soon Message -->
+            <div style="text-align: center; padding: 80px 40px;">
+                <div style="font-size: 5rem; margin-bottom: 20px;">🚀</div>
+                <h3 style="font-family: 'proxima-nova', sans-serif; font-size: 2rem; color: var(--primary-blue); margin-bottom: 15px;">Coming Soon</h3>
+                <p style="font-size: 1.1rem; color: var(--text-medium); max-width: 600px; margin: 0 auto 30px; line-height: 1.6;">
+                    We're building something special! University will feature advanced training modules, leadership development courses, and career growth resources.
+                </p>
+                <div style="background: var(--pale-blue); border-radius: var(--border-radius); padding: 30px; max-width: 700px; margin: 0 auto;">
+                    <h4 style="font-family: 'proxima-nova', sans-serif; color: var(--primary-blue); margin-bottom: 15px;">What to expect:</h4>
+                    <ul style="text-align: left; color: var(--text-dark); line-height: 2; list-style-position: inside;">
+                        <li><strong>Leadership Development</strong> - Skills for team leaders and managers</li>
+                        <li><strong>Career Advancement</strong> - Paths for professional growth</li>
+                        <li><strong>Advanced Training</strong> - Specialized skills and certifications</li>
+                        <li><strong>Industry Best Practices</strong> - Learning from the best in the business</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Resources Folder -->
+        <div id="additional" class="folder-content">
+            <!-- Search Bar -->
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-bar" id="additional-search" placeholder="Search Additional Resources...">
+                <button class="clear-search" id="additional-clear">×</button>
+                <div class="search-results-info" id="additional-results-info"></div>
+            </div>
+
+            <div class="accordion horizontal" id="additional-accordion">
+                <!-- Badges Subfolder -->
+                <div class="accordion-item" data-title="badges subfolder">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Badges</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge tool">📂 Subfolder</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="document-placeholder">
+                                <div class="placeholder-icon">🏆</div>
+                                <div class="placeholder-text">Badges Resources</div>
+                                <div class="placeholder-subtext">Badge content and materials will be added here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Portal FAQs -->
+                <div class="accordion-item" data-title="team portal faqs">
+                    <button class="accordion-header">
+                            <div class="accordion-title">
+                                <span class="accordion-title-text">Team Portal FAQs</span>
+                            </div>
+                            <div class="accordion-right">
+                                <span class="media-badge document">📄 Document</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                        </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div style="background: var(--white); padding: 20px; border-radius: var(--border-radius);">
+                                <h3 style="font-family: 'proxima-nova', sans-serif; color: var(--primary-blue); margin-bottom: 20px;">Frequently Asked Questions</h3>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <h4 style="font-family: 'proxima-nova', sans-serif; color: var(--text-dark); margin-bottom: 8px; font-size: 1rem;">How can I search for a specific resource?</h4>
+                                    <p style="color: var(--text-medium); line-height: 1.6;">Click "Search Resources" at the bottom of the Select Resource Type panel.</p>
+                                </div>
+
+                                <div style="margin-bottom: 20px;">
+                                    <h4 style="font-family: 'proxima-nova', sans-serif; color: var(--text-dark); margin-bottom: 8px; font-size: 1rem;">How can I access the corporate resources portal?</h4>
+                                    <p style="color: var(--text-medium); line-height: 1.6;">The corporate resources portal will be available soon. Users with access will receive more information.</p>
+                                </div>
+
+                                <div>
+                                    <h4 style="font-family: 'proxima-nova', sans-serif; color: var(--text-dark); margin-bottom: 8px; font-size: 1rem;">What if information is in the wrong category or is incorrect or outdated?</h4>
+                                    <p style="color: var(--text-medium); line-height: 1.6;">Please contact <a href="mailto:marketing@wellandgood.pro" style="color: var(--light-blue); text-decoration: none;">marketing@wellandgood.pro</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Core Values -->
+                <div class="accordion-item" data-title="core values">
+                    <button class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-title-text">Core Values</span>
+                        </div>
+                        <div class="accordion-right">
+                            <span class="media-badge document">📄 Document</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div style="background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%); padding: 40px; border-radius: var(--border-radius); color: white;">
+                                <h2 style="font-family: 'proxima-nova', sans-serif; font-size: 2.5rem; font-weight: 700; margin-bottom: 30px; text-align: center;">Core Values 2025</h2>
+                                
+                                <div style="display: flex; flex-direction: column; gap: 20px;">
+                                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px;">We Love the Work</h3>
+                                    </div>
+                                    
+                                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px;">Proper Preparation is Mandatory</h3>
+                                    </div>
+                                    
+                                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px;">We insist on effective communication</h3>
+                                    </div>
+                                    
+                                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px;">No one takes advantage</h3>
+                                    </div>
+                                    
+                                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px;">Our margin brings confidence</h3>
+                                    </div>
+                                    
+                                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px;">We are professionals with a standard of excellence</h3>
+                                    </div>
+                                    
+                                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px;">We Shout out the good</h3>
+                                    </div>
+                                    
+                                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px;">Efficiency is rewarded</h3>
+                                    </div>
+                                    
+                                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px;">We bring solutions</h3>
+                                    </div>
+                                    
+                                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px;">We develop and find the better way</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="no-results" id="additional-no-results">
+                <div class="no-results-icon">🔍</div>
+                <h3>No resources found</h3>
+                <p>Try adjusting your search terms</p>
+            </div>
+        </div>
+
+        <div class="no-results" id="resources-no-results">
+            <div class="no-results-icon">🔍</div>
+            <h3>No resources found</h3>
+            <p>Try adjusting your search terms</p>
+        </div>
+    </div>
+
+    <!-- Training and How To Guides Folder -->
+    <div id="training" class="folder-content">
+        <!-- Search Bar -->
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-bar" id="training-search" placeholder="Search Training & How To's...">
+            <button class="clear-search" id="training-clear">×</button>
+            <div class="search-results-info" id="training-results-info"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="background: var(--light-gray); border-top: 2px solid var(--mid-gray); padding: 20px 40px; text-align: center;">
+        <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 10px;">Well & Good Professional Services Team Portal</p>
+        <button id="admin-link" style="background: none; border: none; color: var(--light-blue); font-family: 'proxima-nova', sans-serif; font-size: 0.85rem; cursor: pointer; text-decoration: underline; padding: 0;">
+            Administrator Access
+        </button>
+    </div>
+</div>
+
+<!-- Admin Panel Modal -->
+<div id="admin-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; overflow-y: auto;">
+    <div style="max-width: 900px; margin: 50px auto; background: white; border-radius: 20px; box-shadow: var(--shadow-lg);">
+        <!-- Admin Header -->
+        <div style="background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%); color: white; padding: 30px 40px; border-radius: 20px 20px 0 0; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2 style="font-family: 'Raleway', sans-serif; font-size: 2rem; margin-bottom: 5px;">Administrator Access</h2>
+                <p style="opacity: 0.9; font-size: 0.95rem;">Update Team Portal Content</p>
+            </div>
+            <button id="close-admin" style="background: rgba(255,255,255,0.2); border: none; color: white; font-size: 2rem; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition);">×</button>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="admin-login" style="padding: 60px 40px;">
+            <div style="max-width: 400px; margin: 0 auto; text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 20px;">🔒</div>
+                <h3 style="font-family: 'proxima-nova', sans-serif; font-size: 1.5rem; color: var(--text-dark); margin-bottom: 10px;">Administrator Access</h3>
+                <p style="color: var(--text-medium); margin-bottom: 30px;">Enter your password to access the admin panel</p>
+                
+                <div style="position: relative; margin-bottom: 10px;">
+                    <input type="password" id="admin-password" placeholder="Enter password" style="width: 100%; padding: 16px; padding-right: 50px; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem; transition: var(--transition);">
+                    <button id="toggle-password" type="button" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.2rem; padding: 8px; color: var(--text-medium); transition: var(--transition);" title="Show password">
+                        👁️
+                    </button>
+                </div>
+                
+                <div id="login-error" style="display: none; color: #e74c3c; font-size: 0.9rem; margin-bottom: 15px; padding: 10px; background: #ffe5e5; border-radius: 8px;">
+                    Incorrect password. Please try again.
+                </div>
+                
+                <button id="admin-login-btn" style="width: 100%; padding: 16px; background: var(--primary-blue); color: white; border: none; border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition);">
+                    Login
+                </button>
+                
+                <p style="color: var(--text-light); font-size: 0.85rem; margin-top: 20px;">
+                    Contact marketing@wellandgood.pro if you need access
+                </p>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard (hidden until login) -->
+        <div id="admin-dashboard" style="display: none; padding: 40px;">
+            <!-- Main Menu -->
+            <div id="admin-main-menu">
+                <h3 style="font-family: 'proxima-nova', sans-serif; color: var(--primary-blue); margin-bottom: 20px; font-size: 1.8rem; text-align: center;">What would you like to do?</h3>
+                
+                <div style="display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 600px; margin: 0 auto;">
+                    <button class="main-menu-btn" data-action="add-resource" style="padding: 30px; background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); border: none; border-radius: var(--border-radius); color: white; font-family: 'proxima-nova', sans-serif; font-size: 1.3rem; font-weight: 600; cursor: pointer; transition: var(--transition); box-shadow: var(--shadow-md); text-align: left; display: flex; align-items: center; gap: 20px;">
+                        <span style="font-size: 3rem;">➕</span>
+                        <div>
+                            <div style="font-size: 1.3rem; margin-bottom: 5px;">Add Resource</div>
+                            <div style="font-size: 0.9rem; font-weight: 400; opacity: 0.9;">Add new videos or documents</div>
+                        </div>
+                    </button>
+
+                    <button class="main-menu-btn" data-action="delete-resource" style="padding: 30px; background: linear-gradient(135deg, #f44336 0%, #da190b 100%); border: none; border-radius: var(--border-radius); color: white; font-family: 'proxima-nova', sans-serif; font-size: 1.3rem; font-weight: 600; cursor: pointer; transition: var(--transition); box-shadow: var(--shadow-md); text-align: left; display: flex; align-items: center; gap: 20px;">
+                        <span style="font-size: 3rem;">🗑️</span>
+                        <div>
+                            <div style="font-size: 1.3rem; margin-bottom: 5px;">Delete Resource</div>
+                            <div style="font-size: 0.9rem; font-weight: 400; opacity: 0.9;">Remove outdated content</div>
+                        </div>
+                    </button>
+
+                    <button class="main-menu-btn" data-action="update-resource" style="padding: 30px; background: linear-gradient(135deg, #2196F3 0%, #0b7dda 100%); border: none; border-radius: var(--border-radius); color: white; font-family: 'proxima-nova', sans-serif; font-size: 1.3rem; font-weight: 600; cursor: pointer; transition: var(--transition); box-shadow: var(--shadow-md); text-align: left; display: flex; align-items: center; gap: 20px;">
+                        <span style="font-size: 3rem;">✏️</span>
+                        <div>
+                            <div style="font-size: 1.3rem; margin-bottom: 5px;">Update Existing</div>
+                            <div style="font-size: 0.9rem; font-weight: 400; opacity: 0.9;">Change video links or documents</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add Resource Section -->
+            <div id="add-resource-section" style="display: none;">
+                <button id="back-to-menu-add" style="background: none; border: none; color: var(--light-blue); font-family: 'proxima-nova', sans-serif; font-size: 1rem; cursor: pointer; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                    ← Back to Menu
+                </button>
+                
+                <h3 style="font-family: 'proxima-nova', sans-serif; color: var(--primary-blue); margin-bottom: 20px;">Add New Resource</h3>
+
+                <!-- Step 1: Choose Folder -->
+                <div id="add-step-1">
+                    <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; font-size: 1.1rem;">Step 1: Choose Folder</label>
+                    <select id="add-folder-select" style="width: 100%; padding: 16px; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem; margin-bottom: 20px;">
+                        <option value="">Select a folder...</option>
+                        <option value="cleaners-video">Cleaners - Video Library</option>
+                        <option value="cleaners-docs">Cleaners - Documents</option>
+                        <option value="operations">Operations</option>
+                        <option value="training">Training & How To's</option>
+                        <option value="university">Well & Good University</option>
+                        <option value="additional">Additional Resources</option>
+                    </select>
+                </div>
+
+                <!-- Step 2: Choose Type -->
+                <div id="add-step-2" style="display: none;">
+                    <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; font-size: 1.1rem;">Step 2: What type of resource?</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                        <button id="add-type-video" style="padding: 20px; background: var(--pale-blue); border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-weight: 600; color: var(--text-dark); cursor: pointer; transition: var(--transition);">
+                            📹 Video
+                        </button>
+                        <button id="add-type-document" style="padding: 20px; background: var(--pale-blue); border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-weight: 600; color: var(--text-dark); cursor: pointer; transition: var(--transition);">
+                            📄 Document
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Enter Details -->
+                <div id="add-step-3" style="display: none;">
+                    <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; font-size: 1.1rem;">Step 3: Enter Details</label>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">Title:</label>
+                        <input type="text" id="add-title" placeholder="e.g., How to Clean Windows" style="width: 100%; padding: 12px; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem;">
+                    </div>
+
+                    <div id="add-video-fields" style="display: none;">
+                        <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">YouTube Video ID:</label>
+                        <input type="text" id="add-video-id" placeholder="e.g., dQw4w9WgXcQ" style="width: 100%; padding: 12px; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem; margin-bottom: 10px;">
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 20px;">
+                            Get this from your YouTube URL: youtube.com/watch?v=<strong>VIDEO_ID</strong>
+                        </p>
+                    </div>
+
+                    <div id="add-document-fields" style="display: none;">
+                        <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">Document Link or File:</label>
+                        <input type="url" id="add-doc-link" placeholder="Paste Google Drive link or other URL" style="width: 100%; padding: 12px; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem; margin-bottom: 20px;">
+                    </div>
+
+                    <button id="add-save-btn" style="width: 100%; padding: 16px; background: var(--primary-blue); color: white; border: none; border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--transition);">
+                        ✅ Add Resource
+                    </button>
+
+                    <div id="add-success-msg" style="display: none; margin-top: 20px; padding: 20px; background: #d4edda; border: 2px solid #28a745; border-radius: var(--border-radius); color: #155724; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">✅</div>
+                        <div style="font-size: 1.2rem; font-weight: 600;">Resource Added Successfully!</div>
+                        <p style="margin-top: 10px;">The new content has been added to the Team Portal.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Resource Section -->
+            <div id="delete-resource-section" style="display: none;">
+                <button id="back-to-menu-delete" style="background: none; border: none; color: var(--light-blue); font-family: 'proxima-nova', sans-serif; font-size: 1rem; cursor: pointer; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                    ← Back to Menu
+                </button>
+                
+                <h3 style="font-family: 'proxima-nova', sans-serif; color: var(--primary-blue); margin-bottom: 20px;">Delete Resource</h3>
+
+                <!-- Step 1: Choose Folder -->
+                <div id="delete-step-1">
+                    <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; font-size: 1.1rem;">Step 1: Choose Folder</label>
+                    <select id="delete-folder-select" style="width: 100%; padding: 16px; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem; margin-bottom: 20px;">
+                        <option value="">Select a folder...</option>
+                        <option value="cleaners-video">Cleaners - Video Library</option>
+                        <option value="cleaners-docs">Cleaners - Documents</option>
+                        <option value="operations">Operations</option>
+                        <option value="training">Training & How To's</option>
+                        <option value="university">Well & Good University</option>
+                        <option value="additional">Additional Resources</option>
+                    </select>
+                </div>
+
+                <!-- Step 2: Select Item -->
+                <div id="delete-step-2" style="display: none;">
+                    <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; font-size: 1.1rem;">Step 2: Select Item to Delete</label>
+                    <div id="delete-items-list" style="max-height: 400px; overflow-y: auto; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); padding: 10px;">
+                        <!-- Items will populate here -->
+                    </div>
+                    
+                    <div id="delete-confirm" style="display: none; margin-top: 20px; padding: 20px; background: #fff3cd; border: 2px solid #ffc107; border-radius: var(--border-radius);">
+                        <p style="font-weight: 600; margin-bottom: 15px;">⚠️ Are you sure you want to delete this item?</p>
+                        <p id="delete-item-name" style="margin-bottom: 20px; color: var(--text-medium);"></p>
+                        <div style="display: flex; gap: 10px;">
+                            <button id="delete-confirm-btn" style="flex: 1; padding: 14px; background: #dc3545; color: white; border: none; border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-weight: 600; cursor: pointer;">
+                                Yes, Delete It
+                            </button>
+                            <button id="delete-cancel-btn" style="flex: 1; padding: 14px; background: var(--light-gray); color: var(--text-dark); border: none; border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-weight: 600; cursor: pointer;">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="delete-success-msg" style="display: none; margin-top: 20px; padding: 20px; background: #d4edda; border: 2px solid #28a745; border-radius: var(--border-radius); color: #155724; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">✅</div>
+                        <div style="font-size: 1.2rem; font-weight: 600;">Resource Deleted Successfully!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update Resource Section -->
+            <div id="update-resource-section" style="display: none;">
+                <button id="back-to-menu-update" style="background: none; border: none; color: var(--light-blue); font-family: 'proxima-nova', sans-serif; font-size: 1rem; cursor: pointer; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                    ← Back to Menu
+                </button>
+                
+                <h3 style="font-family: 'proxima-nova', sans-serif; color: var(--primary-blue); margin-bottom: 20px;">Update Existing Resource</h3>
+
+                <!-- Step 1: Choose Folder -->
+                <div id="update-step-1">
+                    <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; font-size: 1.1rem;">Step 1: Choose Folder</label>
+                    <select id="update-folder-select" style="width: 100%; padding: 16px; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem; margin-bottom: 20px;">
+                        <option value="">Select a folder...</option>
+                        <option value="cleaners-video">Cleaners - Video Library</option>
+                        <option value="cleaners-docs">Cleaners - Documents</option>
+                        <option value="operations">Operations</option>
+                        <option value="training">Training & How To's</option>
+                        <option value="university">Well & Good University</option>
+                        <option value="additional">Additional Resources</option>
+                    </select>
+                </div>
+
+                <!-- Step 2: Select Item -->
+                <div id="update-step-2" style="display: none;">
+                    <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; font-size: 1.1rem;">Step 2: Select Item to Update</label>
+                    <div id="update-items-list" style="max-height: 400px; overflow-y: auto; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); padding: 10px; margin-bottom: 20px;">
+                        <!-- Items will populate here -->
+                    </div>
+                </div>
+
+                <!-- Step 3: Edit Details -->
+                <div id="update-step-3" style="display: none;">
+                    <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; font-size: 1.1rem;">Step 3: Edit Details</label>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">Title:</label>
+                        <input type="text" id="update-title" style="width: 100%; padding: 12px; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem;">
+                    </div>
+
+                    <div id="update-video-fields" style="display: none;">
+                        <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">YouTube Video ID:</label>
+                        <input type="text" id="update-video-id" style="width: 100%; padding: 12px; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem; margin-bottom: 20px;">
+                    </div>
+
+                    <div id="update-document-fields" style="display: none;">
+                        <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">Document Link:</label>
+                        <input type="url" id="update-doc-link" style="width: 100%; padding: 12px; border: 2px solid var(--mid-gray); border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1rem; margin-bottom: 20px;">
+                    </div>
+
+                    <button id="update-save-btn" style="width: 100%; padding: 16px; background: var(--primary-blue); color: white; border: none; border-radius: var(--border-radius); font-family: 'proxima-nova', sans-serif; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--transition);">
+                        💾 Save Changes
+                    </button>
+
+                    <div id="update-success-msg" style="display: none; margin-top: 20px; padding: 20px; background: #d4edda; border: 2px solid #28a745; border-radius: var(--border-radius); color: #155724; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">✅</div>
+                        <div style="font-size: 1.2rem; font-weight: 600;">Resource Updated Successfully!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // ========================================
+    // GOOGLE SHEETS BACKEND CONFIGURATION
+    // ========================================
+    // IMPORTANT: Replace this with your Google Apps Script Web App URL
+    // Get this from: Extensions > Apps Script > Deploy > Web App
+    const GOOGLE_SHEETS_URL = 'YOUR_WEB_APP_URL_HERE';
+    // Example: 'https://script.google.com/macros/s/AKfycbz.../exec'
+    // ========================================
+
+    // Folder Navigation
+    const folderButtons = document.querySelectorAll('.folder-btn');
+    const folderContents = document.querySelectorAll('.folder-content');
+
+    folderButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetFolder = button.dataset.folder;
+
+            // Update active states
+            folderButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            folderContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === targetFolder) {
+                    content.classList.add('active');
+                }
+            });
+
+            // Reset search when switching folders
+            if (targetFolder === 'resources') {
+                resetSearch('resources');
+            } else if (targetFolder === 'training') {
+                resetSearch('training');
+            }
+        });
+    });
+
+    // Cleaners Tabs
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetTab = button.dataset.tab;
+
+            // Update active states
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === targetTab) {
+                    content.classList.add('active');
+                }
+            });
+        });
+    });
+
+    // Accordion functionality
+    function setupAccordion(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const accordionHeaders = container.querySelectorAll('.accordion-header');
+
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const accordionItem = header.closest('.accordion-item');
+                const isActive = accordionItem.classList.contains('active');
+
+                // Toggle active state
+                if (isActive) {
+                    accordionItem.classList.remove('active');
+                } else {
+                    accordionItem.classList.add('active');
+                }
+            });
+        });
+    }
+
+    // Setup all accordions
+    setupAccordion('video-accordion');
+    setupAccordion('documents-accordion');
+    setupAccordion('quiz-accordion');
+    setupAccordion('operations-accordion');
+    setupAccordion('additional-accordion');
+    setupAccordion('training-accordion');
+
+    // Search Functionality for Resources (searches across all tabs)
+    const resourcesSearch = document.getElementById('resources-search');
+    const resourcesClear = document.getElementById('resources-clear');
+    const resourcesResultsInfo = document.getElementById('resources-results-info');
+
+    resourcesSearch.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+
+        if (searchTerm) {
+            resourcesClear.classList.add('visible');
+        } else {
+            resourcesClear.classList.remove('visible');
+        }
+
+        searchResources(searchTerm);
+    });
+
+    resourcesClear.addEventListener('click', () => {
+        resourcesSearch.value = '';
+        resourcesClear.classList.remove('visible');
+        resetSearch('resources');
+    });
+
+    function searchResources(searchTerm) {
+        const allItems = document.querySelectorAll('#resources .accordion-item');
+        const videoNoResults = document.getElementById('video-no-results');
+        const documentsNoResults = document.getElementById('documents-no-results');
+        const quizNoResults = document.getElementById('quiz-no-results');
+        const operationsNoResults = document.getElementById('operations-no-results');
+        const additionalNoResults = document.getElementById('additional-no-results');
+
+        let totalVisible = 0;
+        let videoVisible = 0;
+        let documentsVisible = 0;
+        let quizVisible = 0;
+        let operationsVisible = 0;
+        let additionalVisible = 0;
+
+        allItems.forEach(item => {
+            const title = item.dataset.title || '';
+            
+            if (searchTerm === '' || title.includes(searchTerm)) {
+                item.classList.remove('hidden');
+                totalVisible++;
+
+                // Count by section
+                if (item.closest('#video-accordion')) videoVisible++;
+                if (item.closest('#documents-accordion')) documentsVisible++;
+                if (item.closest('#quiz-accordion')) quizVisible++;
+                if (item.closest('#operations-accordion')) operationsVisible++;
+                if (item.closest('#additional-accordion')) additionalVisible++;
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+
+        // Show/hide no results messages
+        videoNoResults.classList.toggle('visible', videoVisible === 0 && searchTerm !== '');
+        documentsNoResults.classList.toggle('visible', documentsVisible === 0 && searchTerm !== '');
+        quizNoResults.classList.toggle('visible', quizVisible === 0 && searchTerm !== '');
+        operationsNoResults.classList.toggle('visible', operationsVisible === 0 && searchTerm !== '');
+        additionalNoResults.classList.toggle('visible', additionalVisible === 0 && searchTerm !== '');
+
+        // Update results info
+        if (searchTerm) {
+            if (totalVisible === 0) {
+                resourcesResultsInfo.textContent = 'No results found';
+            } else if (totalVisible === 1) {
+                resourcesResultsInfo.textContent = '1 result found';
+            } else {
+                resourcesResultsInfo.textContent = `${totalVisible} results found`;
+            }
+        } else {
+            resourcesResultsInfo.textContent = '';
+        }
+    }
+
+    // Search Functionality for Operations
+    const operationsSearch = document.getElementById('operations-search');
+    const operationsClear = document.getElementById('operations-clear');
+    const operationsResultsInfo = document.getElementById('operations-results-info');
+    const operationsNoResults = document.getElementById('operations-no-results');
+
+    operationsSearch.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+
+        if (searchTerm) {
+            operationsClear.classList.add('visible');
+        } else {
+            operationsClear.classList.remove('visible');
+        }
+
+        searchOperations(searchTerm);
+    });
+
+    operationsClear.addEventListener('click', () => {
+        operationsSearch.value = '';
+        operationsClear.classList.remove('visible');
+        resetSearch('operations');
+    });
+
+    function searchOperations(searchTerm) {
+        const items = document.querySelectorAll('#operations-accordion .accordion-item');
+        let visibleCount = 0;
+
+        items.forEach(item => {
+            const title = item.dataset.title || '';
+            
+            if (searchTerm === '' || title.includes(searchTerm)) {
+                item.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+
+        // Show/hide no results message
+        operationsNoResults.classList.toggle('visible', visibleCount === 0 && searchTerm !== '');
+
+        // Update results info
+        if (searchTerm) {
+            if (visibleCount === 0) {
+                operationsResultsInfo.textContent = 'No results found';
+            } else if (visibleCount === 1) {
+                operationsResultsInfo.textContent = '1 result found';
+            } else {
+                operationsResultsInfo.textContent = `${visibleCount} results found`;
+            }
+        } else {
+            operationsResultsInfo.textContent = '';
+        }
+    }
+
+    // Search Functionality for Additional Resources
+    const additionalSearch = document.getElementById('additional-search');
+    const additionalClear = document.getElementById('additional-clear');
+    const additionalResultsInfo = document.getElementById('additional-results-info');
+    const additionalNoResults = document.getElementById('additional-no-results');
+
+    additionalSearch.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+
+        if (searchTerm) {
+            additionalClear.classList.add('visible');
+        } else {
+            additionalClear.classList.remove('visible');
+        }
+
+        searchAdditional(searchTerm);
+    });
+
+    additionalClear.addEventListener('click', () => {
+        additionalSearch.value = '';
+        additionalClear.classList.remove('visible');
+        resetSearch('additional');
+    });
+
+    function searchAdditional(searchTerm) {
+        const items = document.querySelectorAll('#additional-accordion .accordion-item');
+        let visibleCount = 0;
+
+        items.forEach(item => {
+            const title = item.dataset.title || '';
+            
+            if (searchTerm === '' || title.includes(searchTerm)) {
+                item.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+
+        // Show/hide no results message
+        additionalNoResults.classList.toggle('visible', visibleCount === 0 && searchTerm !== '');
+
+        // Update results info
+        if (searchTerm) {
+            if (visibleCount === 0) {
+                additionalResultsInfo.textContent = 'No results found';
+            } else if (visibleCount === 1) {
+                additionalResultsInfo.textContent = '1 result found';
+            } else {
+                additionalResultsInfo.textContent = `${visibleCount} results found`;
+            }
+        } else {
+            additionalResultsInfo.textContent = '';
+        }
+    }
+
+    // Search Functionality for Training
+    const trainingSearch = document.getElementById('training-search');
+    const trainingClear = document.getElementById('training-clear');
+    const trainingResultsInfo = document.getElementById('training-results-info');
+    const trainingNoResults = document.getElementById('training-no-results');
+
+    trainingSearch.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+
+        if (searchTerm) {
+            trainingClear.classList.add('visible');
+        } else {
+            trainingClear.classList.remove('visible');
+        }
+
+        searchTraining(searchTerm);
+    });
+
+    trainingClear.addEventListener('click', () => {
+        trainingSearch.value = '';
+        trainingClear.classList.remove('visible');
+        resetSearch('training');
+    });
+
+    function searchTraining(searchTerm) {
+        const items = document.querySelectorAll('#training-accordion .accordion-item');
+        let visibleCount = 0;
+
+        items.forEach(item => {
+            const title = item.dataset.title || '';
+            
+            if (searchTerm === '' || title.includes(searchTerm)) {
+                item.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+
+        // Show/hide no results message
+        trainingNoResults.classList.toggle('visible', visibleCount === 0 && searchTerm !== '');
+
+        // Update results info
+        if (searchTerm) {
+            if (visibleCount === 0) {
+                trainingResultsInfo.textContent = 'No results found';
+            } else if (visibleCount === 1) {
+                trainingResultsInfo.textContent = '1 result found';
+            } else {
+                trainingResultsInfo.textContent = `${visibleCount} results found`;
+            }
+        } else {
+            trainingResultsInfo.textContent = '';
+        }
+    }
+
+    function resetSearch(folder) {
+        if (folder === 'resources') {
+            resourcesSearch.value = '';
+            resourcesClear.classList.remove('visible');
+            resourcesResultsInfo.textContent = '';
+            
+            const allItems = document.querySelectorAll('#resources .accordion-item');
+            allItems.forEach(item => item.classList.remove('hidden'));
+            
+            document.getElementById('video-no-results').classList.remove('visible');
+            document.getElementById('documents-no-results').classList.remove('visible');
+            document.getElementById('quiz-no-results').classList.remove('visible');
+            document.getElementById('operations-no-results').classList.remove('visible');
+            document.getElementById('additional-no-results').classList.remove('visible');
+        } else if (folder === 'training') {
+            trainingSearch.value = '';
+            trainingClear.classList.remove('visible');
+            trainingResultsInfo.textContent = '';
+            
+            const items = document.querySelectorAll('#training-accordion .accordion-item');
+            items.forEach(item => item.classList.remove('hidden'));
+            
+            trainingNoResults.classList.remove('visible');
+        }
+    }
+
+    // Admin Panel Functionality
+    const adminModal = document.getElementById('admin-modal');
+    const adminLink = document.getElementById('admin-link');
+    const closeAdmin = document.getElementById('close-admin');
+    const adminLogin = document.getElementById('admin-login');
+    const adminDashboard = document.getElementById('admin-dashboard');
+    const adminPassword = document.getElementById('admin-password');
+    const adminLoginBtn = document.getElementById('admin-login-btn');
+    const loginError = document.getElementById('login-error');
+
+    // Password (you can change this)
+    const ADMIN_PASSWORD = 'WellGood2025';
+
+    // Open admin modal
+    adminLink.addEventListener('click', () => {
+        adminModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Close admin modal
+    closeAdmin.addEventListener('click', () => {
+        adminModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        resetAdminPanel();
+    });
+
+    // Close on background click
+    adminModal.addEventListener('click', (e) => {
+        if (e.target === adminModal) {
+            adminModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            resetAdminPanel();
+        }
+    });
+
+    // Login functionality
+    const togglePasswordBtn = document.getElementById('toggle-password');
+    
+    // Toggle password visibility
+    togglePasswordBtn.addEventListener('click', () => {
+        const passwordField = adminPassword;
+        const isPassword = passwordField.type === 'password';
+        
+        // Toggle input type
+        passwordField.type = isPassword ? 'text' : 'password';
+        
+        // Toggle button icon
+        togglePasswordBtn.textContent = isPassword ? '🙈' : '👁️';
+        togglePasswordBtn.title = isPassword ? 'Hide password' : 'Show password';
+    });
+
+    adminLoginBtn.addEventListener('click', checkPassword);
+    adminPassword.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            checkPassword();
+        }
+    });
+
+    function checkPassword() {
+        const password = adminPassword.value;
+        if (password === ADMIN_PASSWORD) {
+            adminLogin.style.display = 'none';
+            adminDashboard.style.display = 'block';
+            loginError.style.display = 'none';
+            adminPassword.value = '';
+        } else {
+            loginError.style.display = 'block';
+            adminPassword.value = '';
+        }
+    }
+
+    function resetAdminPanel() {
+        adminLogin.style.display = 'block';
+        adminDashboard.style.display = 'none';
+        adminPassword.value = '';
+        loginError.style.display = 'none';
+        hideAllForms();
+    }
+
+    // Admin action buttons
+    const addVideoForm = document.getElementById('add-video-form');
+    const addDocumentForm = document.getElementById('add-document-form');
+    const instructionsPanel = document.getElementById('instructions-panel');
+
+    document.querySelectorAll('.admin-action-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const action = btn.dataset.action;
+            hideAllForms();
+
+            if (action === 'add-video') {
+                addVideoForm.style.display = 'block';
+            } else if (action === 'add-document') {
+                addDocumentForm.style.display = 'block';
+            } else if (action === 'update-content') {
+                alert('This feature allows you to edit existing content. Contact marketing@wellandgood.pro for assistance with updates.');
+            } else if (action === 'manage-users') {
+                alert('To change the admin password or manage user access, contact marketing@wellandgood.pro');
+            }
+        });
+
+        // Hover effect
+        btn.addEventListener('mouseenter', () => {
+            btn.style.background = 'var(--light-blue)';
+            btn.style.color = 'white';
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.background = 'var(--pale-blue)';
+            btn.style.color = 'var(--primary-blue)';
+        });
+    });
+
+    function hideAllForms() {
+        addVideoForm.style.display = 'none';
+        addDocumentForm.style.display = 'none';
+        document.getElementById('video-success').style.display = 'none';
+        document.getElementById('doc-success').style.display = 'none';
+    }
+
+    // Video form handlers
+    document.getElementById('cancel-video-btn').addEventListener('click', () => {
+        hideAllForms();
+        instructionsPanel.style.display = 'block';
+        clearVideoForm();
+    });
+
+    document.getElementById('save-video-btn').addEventListener('click', async () => {
+        const folder = document.getElementById('video-folder').value;
+        const title = document.getElementById('video-title').value;
+        const videoId = document.getElementById('video-id').value;
+
+        if (!folder || !title || !videoId) {
+            alert('Please fill in all fields');
+            return;
+        }
+
+        // Disable button while saving
+        const saveBtn = document.getElementById('save-video-btn');
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving...';
+
+        try {
+            // Send to Google Sheets
+            const response = await fetch(GOOGLE_SHEETS_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: 'video',
+                    folder: folder,
+                    title: title,
+                    videoId: videoId,
+                    addedBy: 'Team Leader',
+                    timestamp: new Date().toISOString()
+                })
+            });
+
+            // Show success message
+            document.getElementById('video-success').style.display = 'block';
+            document.getElementById('video-success').innerHTML = '✅ Video submitted successfully! It will appear after approval.';
+            clearVideoForm();
+
+            // Re-enable button
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Save Video';
+
+        } catch (error) {
+            console.error('Error submitting video:', error);
+            alert('There was an error submitting the video. Please check your internet connection and try again.');
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Save Video';
+        }
+    });
+
+    function clearVideoForm() {
+        document.getElementById('video-folder').value = '';
+        document.getElementById('video-title').value = '';
+        document.getElementById('video-id').value = '';
+    }
+
+    // Document form handlers
+    document.getElementById('cancel-doc-btn').addEventListener('click', () => {
+        hideAllForms();
+        instructionsPanel.style.display = 'block';
+        clearDocForm();
+    });
+
+    document.getElementById('save-doc-btn').addEventListener('click', async () => {
+        const folder = document.getElementById('doc-folder').value;
+        const title = document.getElementById('doc-title').value;
+        const link = document.getElementById('doc-link').value;
+
+        if (!folder || !title || !link) {
+            alert('Please fill in all fields');
+            return;
+        }
+
+        // Disable button while saving
+        const saveBtn = document.getElementById('save-doc-btn');
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving...';
+
+        try {
+            // Send to Google Sheets
+            const response = await fetch(GOOGLE_SHEETS_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: 'document',
+                    folder: folder,
+                    title: title,
+                    link: link,
+                    addedBy: 'Team Leader',
+                    timestamp: new Date().toISOString()
+                })
+            });
+
+            // Show success message
+            document.getElementById('doc-success').style.display = 'block';
+            document.getElementById('doc-success').innerHTML = '✅ Document submitted successfully! It will appear after approval.';
+            clearDocForm();
+
+            // Re-enable button
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Save Document';
+
+        } catch (error) {
+            console.error('Error submitting document:', error);
+            alert('There was an error submitting the document. Please check your internet connection and try again.');
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Save Document';
+        }
+    });
+
+    function clearDocForm() {
+        document.getElementById('doc-folder').value = '';
+        document.getElementById('doc-title').value = '';
+        document.getElementById('doc-link').value = '';
+    }
+
+    // Hover effect for close button
+    closeAdmin.addEventListener('mouseenter', () => {
+        closeAdmin.style.background = 'rgba(255,255,255,0.3)';
+    });
+    closeAdmin.addEventListener('mouseleave', () => {
+        closeAdmin.style.background = 'rgba(255,255,255,0.2)';
+    });
+
+    // ==========================================
+    // LOGIN SYSTEM
+    // ==========================================
+
+    // Valid user credentials (you can add more users here)
+    const validUsers = {
+        'admin@wellandgood.pro': 'WellGood2025',
+        'manager@wellandgood.pro': 'Manager123',
+        'team@wellandgood.pro': 'Team2025'
+        // Add more users: 'email@domain.com': 'password'
+    };
+
+    const loginScreen = document.getElementById('login-screen');
+    const teamPortal = document.getElementById('team-portal');
+    const loginForm = document.getElementById('login-form');
+    const loginEmail = document.getElementById('login-email');
+    const loginPassword = document.getElementById('login-password');
+    const loginError = document.getElementById('login-error');
+    const loginBtn = document.getElementById('login-btn');
+    const toggleLoginPassword = document.getElementById('toggle-login-password');
+
+    // Toggle Password Visibility for Main Login
+    if (toggleLoginPassword && loginPassword) {
+        toggleLoginPassword.addEventListener('click', () => {
+            if (loginPassword.type === 'password') {
+                loginPassword.type = 'text';
+                toggleLoginPassword.textContent = '🙈';
+                toggleLoginPassword.title = 'Hide password';
+            } else {
+                loginPassword.type = 'password';
+                toggleLoginPassword.textContent = '👁️';
+                toggleLoginPassword.title = 'Show password';
+            }
+        });
+    }
+
+    // Check if user is already logged in
+    const isLoggedIn = sessionStorage.getItem('teamPortalLoggedIn');
+    if (isLoggedIn === 'true') {
+        showTeamPortal();
+    }
+
+    // Handle login form submission
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const email = loginEmail.value.trim().toLowerCase();
+        const password = loginPassword.value;
+
+        // Check credentials
+        if (validUsers[email] && validUsers[email] === password) {
+            // Successful login
+            sessionStorage.setItem('teamPortalLoggedIn', 'true');
+            sessionStorage.setItem('userEmail', email);
+            loginError.style.display = 'none';
+            showTeamPortal();
+        } else {
+            // Failed login
+            loginError.style.display = 'block';
+            loginPassword.value = '';
+            
+            // Shake animation
+            loginError.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                loginError.style.animation = '';
+            }, 500);
+        }
+    });
+
+    // Skip Login Button (Temporary)
+    const skipLoginBtn = document.getElementById('skip-login-btn');
+    console.log('Skip button found:', skipLoginBtn);
+    
+    if (skipLoginBtn) {
+        skipLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Skip login clicked!');
+            
+            // Bypass login - go straight to portal
+            sessionStorage.setItem('teamPortalLoggedIn', 'true');
+            sessionStorage.setItem('userEmail', 'guest@wellandgood.pro');
+            console.log('Session storage set, showing portal');
+            showTeamPortal();
+        });
+
+        // Add hover effect
+        skipLoginBtn.addEventListener('mouseenter', () => {
+            skipLoginBtn.style.background = 'var(--pale-blue)';
+            skipLoginBtn.style.borderColor = 'var(--light-blue)';
+        });
+        skipLoginBtn.addEventListener('mouseleave', () => {
+            skipLoginBtn.style.background = 'transparent';
+            skipLoginBtn.style.borderColor = 'var(--mid-gray)';
+        });
+    } else {
+        console.error('Skip button not found!');
+    }
+
+    function showTeamPortal() {
+        console.log('showTeamPortal called');
+        console.log('loginScreen:', loginScreen);
+        console.log('teamPortal:', teamPortal);
+        
+        if (loginScreen && teamPortal) {
+            loginScreen.style.display = 'none';
+            teamPortal.style.display = 'block';
+            console.log('Portal should now be visible');
+        } else {
+            console.error('Elements not found!');
+        }
+    }
+
+    // Add logout function (optional - can be triggered from admin panel)
+    function logout() {
+        sessionStorage.removeItem('teamPortalLoggedIn');
+        sessionStorage.removeItem('userEmail');
+        teamPortal.style.display = 'none';
+        loginScreen.style.display = 'flex';
+        loginEmail.value = '';
+        loginPassword.value = '';
+        loginError.style.display = 'none';
+    }
+
+    // Optional: Add keyboard shortcut for logout (Ctrl+Shift+L)
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.shiftKey && e.key === 'L') {
+            logout();
+        }
+    });
+
+    // Hover effects for login button
+    loginBtn.addEventListener('mouseenter', () => {
+        loginBtn.style.background = 'var(--light-blue)';
+    });
+    loginBtn.addEventListener('mouseleave', () => {
+        loginBtn.style.background = 'var(--primary-blue)';
+    });
+
+    // Focus effects for inputs
+    [loginEmail, loginPassword].forEach(input => {
+        input.addEventListener('focus', () => {
+            input.style.borderColor = 'var(--light-blue)';
+        });
+        input.addEventListener('blur', () => {
+            input.style.borderColor = 'var(--mid-gray)';
+        });
+    });
+    }); // End DOMContentLoaded
+</script>
+```
+
+</div> <!-- Close team-portal div -->
+</body>
+</html>
